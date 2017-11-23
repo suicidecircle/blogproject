@@ -1,5 +1,5 @@
 <?php require 'fetch_post.php'; 
-
+include 'archive.php';
 session_start();
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -87,7 +87,7 @@ error_reporting(E_ALL);
 		<div class="row">		
 			<div id="left-window" class="col-md-3">	
 				<div id="left-window-header">
-				<h1>Contents</h1>
+				<h1>Archive</h1>
 				<noscript>Sorry, your browser does not support JavaScript!</noscript> 
 				</div>	
 				<div id="links-left">				

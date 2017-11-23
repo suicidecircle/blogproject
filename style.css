@@ -228,3 +228,8 @@ body {
 .hiddenElement{
 	display:none;
 }
+
+.archiveTimelines{
+	font-size: 18px;
+	Color:white;
+}

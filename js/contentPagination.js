@@ -32,6 +32,7 @@ window.onload = function() {
 		body.stop().animate({scrollTop:0}, 500, 'swing', function(){});
 	}
 	
+	//shortens the post and adds "read more to the end."
 	function shortenBlogposts() {
 		$('.content-area').each(function(i, obj){
 			let div = $(obj);
@@ -50,12 +51,41 @@ window.onload = function() {
 				
 		
 		contentsRight.innerHTML += "<div class='blog-post'>";					
-		$('#right-contents').append("<div class='blog-title-area'><h1><a class='blog-titles' href='readpost.php?pid="+ids[i]+"'>" + headers[i] + "</h1></div>");
-		contentsRight.innerHTML += "<div class='post-date'>posted: "+ dates[i] + "<br></div>";
-		contentsRight.innerHTML += "<div class='content-area' id='"+ ids[i]+ "'>"+ bodies[i] + "</div>";
-		contentsRight.innerHTML += "<div class='post-tag'>"+ tags[i] + "</div>";
+		$('#right-contents').append("<div class='blog-title-area'><h1><a class='blog-titles' href='readpost.php?pid="+blogStuff.ids[i]+"'>" + blogStuff.headers[i] + "</h1></div>");
+		contentsRight.innerHTML += "<div class='post-date'>posted: "+ blogStuff.dates[i] + "<br></div>";
+		contentsRight.innerHTML += "<div class='content-area' id='"+ blogStuff.ids[i]+ "'>"+ blogStuff.bodies[i] + "</div>";
+		contentsRight.innerHTML += "<div class='post-tag'>"+ blogStuff.tags[i] + "</div>";
 		contentsRight.innerHTML +="</div>";			
 	}
+	
+	
+	function createLeftpanel(leftLinks){
+		
+		var postMonths = [];
+		for (var i= 0; i < cont.archiveTime.length; i++){
+			postMonths.push(cont.archiveTime[i]);
+			var timelines = postMonths.filter(function(i, time, self){
+				return time == self.indexOf(i); 
+			});			
+		}
+		
+		for (var i = 0; i < timelines.length; i++){
+			leftLinks.innerHTML += "<div class='ArchiveTimelines'>"+timelines[i]+"</div>";
+		}
+
+		for (var i = 0; i < cont.allHeaders.length; i++){			
+			console.log(timelines[i]);
+			//leftLinks.innerHTML += "<div><a class='leftLinks' href='readpost.php?pid="+allIds[i]+"'>" + allHeaders[i] + "</div>";
+			if(cont.archiveTime[i] == timelines[0]){
+				leftLinks.childNodes[0].innerHTML += "<div><a class='leftLinks' href='readpost.php?pid="+cont.allIds[i]+"'>" + cont.allHeaders[i] + "</div>";
+			} else if(cont.archiveTime[i] == timelines[1]){
+				leftLinks.childNodes[1].innerHTML += "<div><a class='leftLinks' href='readpost.php?pid="+cont.allIds[i]+"'>" + cont.allHeaders[i] + "</div>";
+			}
+			
+		}					
+		
+	}
+	
 	
 	//creates content divs and displays the blogposts.
 	function displayPosts(){
@@ -68,9 +98,11 @@ window.onload = function() {
 		var contentRight = $('#right-contents');				
 		leftLinks.innerHTML="";
 		
-		for (var i = 0; i < headers.length; i++){			
-			leftLinks.innerHTML += "<div><a class='leftLinks' href='readpost.php?pid="+ids[i]+"'>" + headers[i] + "</div>";			
-		}		
+		
+		
+		createLeftpanel(leftLinks);		
+		
+		
 		switch(currentPage){			
 			case 0:				
 				previousPage.classList.add("hiddenButton");
@@ -78,7 +110,7 @@ window.onload = function() {
 				
 				localStorage.setItem('page-number', JSON.stringify(currentPage));				
 				contentsRight.innerHTML = "";
-				for(var i = 0; i < (headers.length/2); i++){										
+				for(var i = 0; i < (blogStuff.headers.length/2); i++){										
 					createPostLayout(currentPage, contentsRight, i);					
 				}							
 				shortenBlogposts();
