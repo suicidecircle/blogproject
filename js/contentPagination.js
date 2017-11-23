@@ -58,7 +58,7 @@ window.onload = function() {
 		contentsRight.innerHTML +="</div>";			
 	}
 	
-	
+	//create left archive window with all posts sorted by a date.
 	function createLeftpanel(leftLinks){
 		
 		var postMonths = [];
@@ -124,7 +124,7 @@ window.onload = function() {
 				localStorage.setItem('page-number', JSON.stringify(currentPage));				
 				contentsRight.innerHTML = "";
 				
-				for(var i = Math.round(headers.length/2); i <headers.length; i++){
+				for(var i = Math.round(blogStuff.headers.length/2); i <blogStuff.headers.length; i++){
 					createPostLayout(currentPage, contentsRight, i);					
 				}									
 				shortenBlogposts();			
